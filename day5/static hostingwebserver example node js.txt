@@ -1,0 +1,141 @@
+Create a folder named node-web-server. Navigate to this folder and in command prompt and run a command as-
+
+npm init -y
+1
+npm init -y
+This command will initialize the folder to be a node project and create package.json. This file holds the node js project configuration.
+
+As we are going to use the single external framework “express”, we will install this dependency package in our project with below command-
+
+npm install express --save
+1
+npm install express --save
+Once we install this our package.json will be something like this.
+
+
+{
+  "name": "node-web-server",
+  "version": "1.0.0",
+  "description": "A minimalist Web Server with Node.js",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Pavan Solapure",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
+{
+  "name": "node-web-server",
+  "version": "1.0.0",
+  "description": "A minimalist Web Server with Node.js",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Pavan Solapure",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
+Prepare Static Contents
+Now it can be anything that you want to the server through your webserver. For our example we will prepare a couple of HTML pages with Bootstrap support. All these fill will be present in a folder named “public” in our project structure.
+
+We will not install any bootstrap file but will use them from free CDN. Our HTML files will have below references
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+ 
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ 
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+ 
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+Writing Server
+The server.js will be our main file that will create and run a webserver instance.  As mentioned we are using Express for this. Below is the code which will let you initialize and start express.
+
+var express = require("express");
+
+var app = express();
+var express = require("express");
+ 
+var app = express();
+Now Express comes with an out of the box functionality that lets you render your static contents. You just have to configure the directory with below command.
+
+app.use(express.static('public'));
+1
+app.use(express.static('public'));
+As an add-on, if you need to use your custom CSS or JS files you can place them in a directory and configure it in express as
+
+//make way for some custom css, js and images
+app.use('/css', express.static(__dirname + '/public/css'));
+app.use('/js', express.static(__dirname + '/public/js'));
+app.use('/images', express.static(__dirname + '/public/images'));
+
+//make way for some custom css, js and images
+app.use('/css', express.static(__dirname + '/public/css'));
+app.use('/js', express.static(__dirname + '/public/js'));
+app.use('/images', express.static(__dirname + '/public/images'));
+once you configured this, you can refer your custom files as
+
+<link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+1
+<link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+In the end, you will configure your express app to listen on a port. So our complete server.js will look like-
+
+var express = require("express");
+
+var app = express();
+
+app.use(express.static('public'));
+
+//make way for some custom css, js and images
+app.use('/css', express.static(__dirname + '/public/css'));
+app.use('/js', express.static(__dirname + '/public/js'));
+app.use('/images', express.static(__dirname + '/public/images'));
+
+var server = app.listen(8081, function(){
+    var port = server.address().port;
+    console.log("Server started at http://localhost:%s", port);
+});
+var express = require("express");
+ 
+var app = express();
+ 
+app.use(express.static('public'));
+ 
+//make way for some custom css, js and images
+app.use('/css', express.static(__dirname + '/public/css'));
+app.use('/js', express.static(__dirname + '/public/js'));
+app.use('/images', express.static(__dirname + '/public/images'));
+ 
+var server = app.listen(8081, function(){
+    var port = server.address().port;
+    console.log("Server started at http://localhost:%s", port);
+});
+Starting the Node JS Webserver
+Starting the server is as simple as running below command.
+
+node server.js
+
+node server.js
+That’s it, your server is up and running on port 8081.
